@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin UI</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: yellow;
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid pink;
+            padding: 16px;
+            text-align: center;
+        }
+        th {
+            color: #ffb6c1;
+            background: #222;
+        }
+        td {
+            color: #fff;
+            background: #111;
+        }
+        .product-img {
+            display: block;
+            margin: 0 auto 8px auto;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ffb6c1;
+        }
+        .product-name {
+            color: #ffe066;
+            font-weight: bold;
+        }
+        .price {
+            color: #7fffd4;
+        }
+        .stock {
+            color: #87cefa;
+        }
+        .shipping {
+            color: #ffb347;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Shipping In Progress</th>
+            <th>Stock Available</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.product_id }}</td>
+            <td>
+                <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-img">
+                <div class="product-name">{{ product.name }}</div>
+            </td>
+            <td class="price">
+                ${{ product.price }}
+            </td>
+            <td class="shipping">
+                {{ product.shipping_in_progress }}
+            </td>
+            <td class="stock">
+                {{ product.stock_available }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
