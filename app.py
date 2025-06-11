@@ -3,22 +3,25 @@ import requests
 
 app = Flask(__name__)
 
+# API Gateway URL
+API_GATEWAY_URL = 'https://shopsphere-gateway-46h5n97t.uc.gateway.dev'
+
 @app.route('/')
 def home():
-    # Fetch product info from product-backend
-    products_resp = requests.get('https://product-backend-327554758505.us-central1.run.app/products')
+    # Fetch product info from API Gateway
+    products_resp = requests.get(f'{API_GATEWAY_URL}/products')
     products = products_resp.json() if products_resp.ok else []
 
-    # Fetch shipping in progress from orders-backend
-    orders_resp = requests.get('https://order-backend-327554758505.us-central1.run.app/shipping_in_progress')
+    # Fetch shipping in progress from API Gateway
+    orders_resp = requests.get(f'{API_GATEWAY_URL}/orders/shipping_in_progress')
     shipping_list = orders_resp.json() if orders_resp.ok else []
     # Convert shipping list to dict for easy lookup
     shipping_data = {}
     for item in shipping_list:
         shipping_data[str(item.get("product_id"))] = item.get("shipping_in_progress", 0)
 
-    # Fetch stock available from inventory-backend
-    inventory_resp = requests.get('https://inventory-backend-327554758505.us-central1.run.app/get_all_stock')
+    # Fetch stock available from API Gateway
+    inventory_resp = requests.get(f'{API_GATEWAY_URL}/inventory')
     inventory_json = inventory_resp.json() if inventory_resp.ok else {}
     inventory_data = {}
     # Convert inventory list to dict for easy lookup
