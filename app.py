@@ -1,7 +1,5 @@
 from flask import Flask, render_template
 import requests
-from auth_helper import get_service_account_token
-
 
 app = Flask(__name__)
 
@@ -14,10 +12,8 @@ def home():
     products_resp = requests.get(f'{API_GATEWAY_URL}/products')
     products = products_resp.json() if products_resp.ok else []
 
-      # Fetch shipping in progress from API Gateway (secure)
-    id_token_jwt = get_service_account_token()
-    secure_headers = {'Authorization': f'Bearer {id_token_jwt}'}
-    orders_resp = requests.get(f'{API_GATEWAY_URL}/orders/shipping_in_progress', headers=secure_headers)
+    # Fetch shipping in progress from API Gateway
+    orders_resp = requests.get(f'{API_GATEWAY_URL}/orders/shipping_in_progress')
     shipping_list = orders_resp.json() if orders_resp.ok else []
     # Convert shipping list to dict for easy lookup
     shipping_data = {}
@@ -48,4 +44,4 @@ def home():
     return render_template('index.html', products=merged_products)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001) 
+    app.run(debug=True, port=5001)
